@@ -127,6 +127,8 @@ InternetWhisper es un chatbot conversacional de inteligencia artificial avanzado
 ```
 ## 📌 Diagrama de flujo - frontend
 
+<div style="width: 500px; height: 300px; overflow: auto;">
+
 ```mermaid
 graph TD
     A[Inicio] --> B[Inicializar interfaz de Streamlit]
@@ -142,8 +144,11 @@ graph TD
     D -->|No| K[Esperar entrada del usuario]
     K --> D
 ```
+</div>
 
 ## 📌 Diagrama de flujo - Orchestrator
+
+<div style="width: 500px; height: 300px; overflow: auto;">
 
 ```mermaid
 graph TD
@@ -163,6 +168,7 @@ graph TD
     M -->|Sí| H
     M -->|No| N[Fin de la respuesta]
 ```
+</div>
 
 ## 🧩 Modules
 
