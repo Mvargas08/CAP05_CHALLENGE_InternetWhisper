@@ -48,7 +48,6 @@
     - [📦 Installation](#-installation)
     - [🤖 Usage](#-usage)
     - [🧪 Tests](#-tests)
-- [📌 Project Roadmap](#-project-roadmap)
 - [🤝 Contributing](#-contributing)
 - [🎗 License](#-license)
 - [🙌 Acknowledgments](#-acknowledgments)
@@ -126,7 +125,7 @@ InternetWhisper es un chatbot conversacional de inteligencia artificial avanzado
     └── tests
         └── __init__.py
 ```
-## Diagrama de flujo - frontend
+## 📌 Diagrama de flujo - frontend
 
 ```mermaid
 graph TD
@@ -144,7 +143,7 @@ graph TD
     K --> D
 ```
 
-## Diagrama de flujo - Orchestrator
+## 📌 Diagrama de flujo - Orchestrator
 
 ```mermaid
 graph TD
@@ -304,7 +303,80 @@ Execute the test suite using the following command:
 ❯ pytest
 ```
 
+## 🔧 Configuration
 
+- **HEADER_ACCEPT_ENCODING**=gzip
+- **HEADER_USER_AGENT**=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 (gzip)
+- **GOOGLE_API_HOST**=https://www.googleapis.com/customsearch/v1?
+- **GOOGLE_FIELDS**=items(title, displayLink, link, snippet,pagemap/cse_thumbnail)
+- **GOOGLE_API_KEY**= Tu clave API de Google
+- **GOOGLE_CX**= Tu ID de motor de búsqueda personalizado
+- **OPENAI_API_KEY**= Tu clave API de OpenAI
+
+## Ejecución en local
+
+- Clona el repositorio.
+- Configura las variables de entorno como se indicó anteriormente.
+- Ejecuta los siguientes comandos:
+
+```sh
+   ❯ docker-compose build
+   ❯ docker-compose up
+```
+## Elige tu clase de scraper
+
+El proyecto incluye dos clases de scraper:
+
+- **ScraperLocal**: Utiliza aiohttp para el web scraping (por defecto).
+- **ScraperRemote**: Utiliza Playwright en un contenedor replicado separado para un renderizado de JavaScript más complejo.
+
+Para cambiar entre las clases de scraper, modifica el archivo `orchestrator/main.py` y descomenta los servicios scraper y lb-scraper apropiados en `docker-compose.yml`.
+
+- **OpenAIEmbeddings**: La opción por defecto, usando los embeddings de OpenAI.
+
+## Acceso al Chatbot
+
+Después de ejecutar la aplicación, abre tu navegador web y navega a [http://localhost:8501/](http://localhost:8501/) para interactuar con el chatbot.
+
+## APIs Disponibles
+- **GET /streamingSearch**
+Endpoint principal para realizar búsquedas y obtener respuestas del chatbot.
+
+### Parámetros:
+- **query (string, requerido):** La consulta del usuario.
+- **Respuesta:** Stream de eventos en formato text/event-stream.
+- **Uso:** Realiza una solicitud GET a http://orchestrator/streamingSearch?query=tu_consulta_aquí.
+
+Este endpoint procesa la consulta del usuario, realiza búsquedas en Internet si es necesario, y devuelve una respuesta generada por la IA en tiempo real.
+
+## Definición OpenAPI
+```yaml
+openapi: "3.0.0"
+info:
+  title: "FastAPI"
+  version: "0.1.0"
+paths:
+  /streamingSearch:
+    get:
+      summary: "Main"
+      operationId: "main_streamingSearch_get"
+      parameters:
+        - name: "query"
+          in: "query"
+          required: true
+          schema:
+            title: "Query"
+            type: "string"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            text/event-stream:
+              schema:
+                title: "Response"
+                type: "string"
+
+```
 
 ## 🤝 Contributing
 
