@@ -1,11 +1,13 @@
 <p align="center">
-  <img src="LLM" width="60%" alt="CAP05_CHALLENGE_INTERNETWHISPER-logo">
+<p align="center">
+  <img src="https://img.icons8.com/?size=512&id=55494&format=png" width="20%" alt="README-AI-logo">
+</p>
 </p>
 <p align="center">
     <h1 align="center">CAP05_CHALLENGE_INTERNETWHISPER</h1>
 </p>
 <p align="center">
-    <em><code>❯ REPLACE-ME</code></em>
+    <em><code>Chatbot de IA con acceso a Internet</code></em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/Mvargas08/CAP05_CHALLENGE_InternetWhisper?style=flat&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
@@ -51,19 +53,29 @@
 - [🎗 License](#-license)
 - [🙌 Acknowledgments](#-acknowledgments)
 
----
 
 ## 📍 Overview
 
-<code>❯ REPLACE-ME</code>
+InternetWhisper es un chatbot conversacional de inteligencia artificial avanzado que tiene la capacidad única de acceder a Internet en tiempo real. Inspirado en You.com y Google's Bard, este proyecto combina la potencia de la IA generativa con la vasta información disponible en la web para proporcionar respuestas informadas y actualizadas a las consultas de los usuarios.
 
----
 
 ## 👾 Features
 
-<code>❯ REPLACE-ME</code>
+### InternetWhisper: Arquitectura Moderna y Eficiente
 
----
+1. **FastAPI**: Framework web para crear APIs de manera rápida y eficiente.
+2. **OpenAI GPT-3.5 Turbo**: Motor de IA para generar respuestas coherentes y contextuales.
+3. **Redis Vector DB**: Base de datos vectorial para almacenar en caché información recuperada, optimizando el rendimiento.
+4. **Google Custom Search API**: Para realizar búsquedas en Internet.
+5. **Scraping**: Utiliza aiohttp (ScraperLocal) o Playwright (ScraperRemote) para extraer información de páginas web.
+6. **Embeddings**: Usa OpenAIEmbeddings o RemoteEmbeddings para procesar texto.
+7. **Docker**: Para contenerización y fácil despliegue.
+
+### Componentes Principales
+
+- **stream_chat**: Función que genera respuestas en tiempo real utilizando la API de OpenAI.
+- **Retriever**: Módulo para recuperar y procesar información, incluyendo búsqueda, caché, scraping y procesamiento de texto.
+- **EventSourceResponse**: Permite la comunicación en tiempo real entre el servidor y el cliente.
 
 ## 📂 Repository Structure
 
@@ -114,107 +126,142 @@
     └── tests
         └── __init__.py
 ```
+## Diagrama de flujo - frontend
 
----
+```mermaid
+graph TD
+    A[Inicio] --> B[Inicializar interfaz de Streamlit]
+    B --> C[Mostrar historial de chat]
+    C --> D{Usuario ingresa pregunta?}
+    D -->|Sí| E[Procesar entrada del usuario]
+    E --> F[Llamar al backend]
+    F --> G[Procesar respuesta del backend]
+    G --> H[Mostrar resultados de búsqueda]
+    H --> I[Mostrar respuesta generada]
+    I --> J[Actualizar historial de chat]
+    J --> D
+    D -->|No| K[Esperar entrada del usuario]
+    K --> D
+```
+
+## Diagrama de flujo - Orchestrator
+
+```mermaid
+graph TD
+    A[Inicio] --> B[Inicializar FastAPI]
+    B --> C[Definir ruta /streamingSearch]
+    C --> D[Recibir query]
+    D --> E[Inicializar componentes]
+    E --> F[Crear índice Redis si no existe]
+    F --> G[Iniciar generador de eventos]
+    G --> H{Tipo de evento}
+    H -->|Búsqueda| I[Enviar resultados de búsqueda]
+    H -->|Contexto| J[Generar prompt final]
+    J --> K[Iniciar stream de chat OpenAI]
+    K --> L[Enviar tokens de respuesta]
+    H -->|Token| L
+    L --> M{Más eventos?}
+    M -->|Sí| H
+    M -->|No| N[Fin de la respuesta]
+```
 
 ## 🧩 Modules
 
-<details closed><summary>.</summary>
+<details closed><summary>/.</summary>
 
-| File | Summary |
-| --- | --- |
-| [pyproject.toml](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/pyproject.toml) | <code>❯ REPLACE-ME</code> |
-| [docker-compose.yml](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/docker-compose.yml) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [pyproject.toml](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/pyproject.toml) |
+| [docker-compose.yml](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/docker-compose.yml) |
 
 </details>
 
 <details closed><summary>src.orchestrator</summary>
 
-| File | Summary |
-| --- | --- |
-| [main.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/main.py) | <code>❯ REPLACE-ME</code> |
-| [requirements.txt](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/requirements.txt) | <code>❯ REPLACE-ME</code> |
-| [logging.conf](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/logging.conf) | <code>❯ REPLACE-ME</code> |
-| [Dockerfile](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/Dockerfile) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [main.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/main.py) |
+| [requirements.txt](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/requirements.txt) |
+| [logging.conf](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/logging.conf) |
+| [Dockerfile](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/Dockerfile) |
 
 </details>
 
 <details closed><summary>src.orchestrator.mocks</summary>
 
-| File | Summary |
-| --- | --- |
-| [test_dict.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/mocks/test_dict.py) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [test_dict.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/mocks/test_dict.py) |
 
 </details>
 
 <details closed><summary>src.orchestrator.models</summary>
 
-| File | Summary |
-| --- | --- |
-| [document.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/models/document.py) | <code>❯ REPLACE-ME</code> |
-| [search.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/models/search.py) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [document.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/models/document.py) |
+| [search.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/models/search.py) |
 
 </details>
 
 <details closed><summary>src.orchestrator.retrieval</summary>
 
-| File | Summary |
-| --- | --- |
-| [retriever.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/retriever.py) | <code>❯ REPLACE-ME</code> |
-| [scraper.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/scraper.py) | <code>❯ REPLACE-ME</code> |
-| [cache.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/cache.py) | <code>❯ REPLACE-ME</code> |
-| [splitter.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/splitter.py) | <code>❯ REPLACE-ME</code> |
-| [embeddings.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/embeddings.py) | <code>❯ REPLACE-ME</code> |
-| [search.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/search.py) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [retriever.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/retriever.py) |
+| [scraper.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/scraper.py) |
+| [cache.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/cache.py) |
+| [splitter.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/splitter.py) |
+| [embeddings.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/embeddings.py) |
+| [search.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/retrieval/search.py) |
 
 </details>
 
 <details closed><summary>src.orchestrator.prompt</summary>
 
-| File | Summary |
-| --- | --- |
-| [prompt.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/prompt/prompt.py) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [prompt.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/prompt/prompt.py) |
 
 </details>
 
 <details closed><summary>src.orchestrator.util</summary>
 
-| File | Summary |
-| --- | --- |
-| [logger.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/util/logger.py) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [logger.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/orchestrator/util/logger.py) |
 
 </details>
 
 <details closed><summary>src.frontend</summary>
 
-| File | Summary |
-| --- | --- |
-| [main.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/frontend/main.py) | <code>❯ REPLACE-ME</code> |
-| [requirements.txt](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/frontend/requirements.txt) | <code>❯ REPLACE-ME</code> |
-| [Dockerfile](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/frontend/Dockerfile) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [main.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/frontend/main.py) |
+| [requirements.txt](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/frontend/requirements.txt) |
+| [Dockerfile](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/frontend/Dockerfile) |
 
 </details>
 
 <details closed><summary>src.scraper</summary>
 
-| File | Summary |
-| --- | --- |
-| [nginx.conf](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/nginx.conf) | <code>❯ REPLACE-ME</code> |
-| [main.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/main.py) | <code>❯ REPLACE-ME</code> |
-| [requirements.txt](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/requirements.txt) | <code>❯ REPLACE-ME</code> |
-| [Dockerfile](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/Dockerfile) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [nginx.conf](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/nginx.conf) |
+| [main.py](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/main.py) |
+| [requirements.txt](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/requirements.txt) |
+| [Dockerfile](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/src/scraper/Dockerfile) |
 
 </details>
 
 <details closed><summary>redis_data</summary>
 
-| File | Summary |
-| --- | --- |
-| [dump.rdb](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/redis_data/dump.rdb) | <code>❯ REPLACE-ME</code> |
+| File |
+| --- |
+| [dump.rdb](https://github.com/Mvargas08/CAP05_CHALLENGE_InternetWhisper/blob/main/redis_data/dump.rdb) |
 
 </details>
 
----
 
 ## 🚀 Getting Started
 
@@ -257,15 +304,7 @@ Execute the test suite using the following command:
 ❯ pytest
 ```
 
----
 
-## 📌 Project Roadmap
-
-- [X] **`Task 1`**: <strike>Implement feature one.</strike>
-- [ ] **`Task 2`**: Implement feature two.
-- [ ] **`Task 3`**: Implement feature three.
-
----
 
 ## 🤝 Contributing
 
@@ -310,16 +349,3 @@ Contributions are welcome! Here are several ways you can contribute:
 </p>
 </details>
 
----
-
-## 🎗 License
-
-This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
-
----
-
-## 🙌 Acknowledgments
-
-- List any resources, contributors, inspiration, etc. here.
-
----
