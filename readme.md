@@ -16,7 +16,7 @@
 	<img src="https://img.shields.io/github/languages/count/Mvargas08/CAP05_CHALLENGE_InternetWhisper?style=flat&color=0080ff" alt="repo-language-count">
 </p>
 <p align="center">
-		<em>Built with the tools and technologies:</em>
+		<em>Construido con las siguientes herramientas y tecnologias:</em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/badge/Streamlit-FF4B4B.svg?style=flat&logo=Streamlit&logoColor=white" alt="Streamlit">
