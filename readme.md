@@ -125,50 +125,6 @@ InternetWhisper es un chatbot conversacional de inteligencia artificial avanzado
     └── tests
         └── __init__.py
 ```
-## 📌 Diagrama de flujo - frontend
-
-<div style="width: 500px; height: 300px; overflow: auto;">
-
-```mermaid
-graph TD
-    A[Inicio] --> B[Inicializar interfaz de Streamlit]
-    B --> C[Mostrar historial de chat]
-    C --> D{Usuario ingresa pregunta?}
-    D -->|Sí| E[Procesar entrada del usuario]
-    E --> F[Llamar al backend]
-    F --> G[Procesar respuesta del backend]
-    G --> H[Mostrar resultados de búsqueda]
-    H --> I[Mostrar respuesta generada]
-    I --> J[Actualizar historial de chat]
-    J --> D
-    D -->|No| K[Esperar entrada del usuario]
-    K --> D
-```
-</div>
-
-## 📌 Diagrama de flujo - Orchestrator
-
-<div style="width: 500px; height: 300px; overflow: auto;">
-
-```mermaid
-graph TD
-    A[Inicio] --> B[Inicializar FastAPI]
-    B --> C[Definir ruta /streamingSearch]
-    C --> D[Recibir query]
-    D --> E[Inicializar componentes]
-    E --> F[Crear índice Redis si no existe]
-    F --> G[Iniciar generador de eventos]
-    G --> H{Tipo de evento}
-    H -->|Búsqueda| I[Enviar resultados de búsqueda]
-    H -->|Contexto| J[Generar prompt final]
-    J --> K[Iniciar stream de chat OpenAI]
-    K --> L[Enviar tokens de respuesta]
-    H -->|Token| L
-    L --> M{Más eventos?}
-    M -->|Sí| H
-    M -->|No| N[Fin de la respuesta]
-```
-</div>
 
 ## 🧩 Modules
 
@@ -343,6 +299,27 @@ Para cambiar entre las clases de scraper, modifica el archivo `orchestrator/main
 ## Acceso al Chatbot
 
 Después de ejecutar la aplicación, abre tu navegador web y navega a [http://localhost:8501/](http://localhost:8501/) para interactuar con el chatbot.
+
+## 📌 Diagrama de flujo - Uso del Chatbot
+
+<div style="width: 500px; height: 300px; overflow: auto;">
+
+```mermaid
+graph TD
+    A[Inicio] --> B[Inicializar interfaz de Streamlit]
+    B --> C[Mostrar historial de chat]
+    C --> D{Usuario ingresa pregunta?}
+    D -->|Sí| E[Procesar entrada del usuario]
+    E --> F[Llamar al backend]
+    F --> G[Procesar respuesta del backend]
+    G --> H[Mostrar resultados de búsqueda]
+    H --> I[Mostrar respuesta generada]
+    I --> J[Actualizar historial de chat]
+    J --> D
+    D -->|No| K[Esperar entrada del usuario]
+    K --> D
+```
+</div>
 
 ## APIs Disponibles
 - **GET /streamingSearch**
